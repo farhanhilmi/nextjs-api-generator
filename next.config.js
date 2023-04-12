@@ -2,7 +2,7 @@
 const nextConfig = {
     reactStrictMode: true,
     env: {
-        NEXT_PUBLIC_API_URL: 'http://localhost:9000/api',
+        NEXT_PUBLIC_API_URL: 'https://be-api-generator.as.r.appspot.com/api',
     },
 };
 

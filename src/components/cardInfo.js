@@ -1,13 +1,18 @@
 import { PaperClipIcon } from '@heroicons/react/20/solid';
 import DialogModal from './dialogModal';
 import { useState } from 'react';
+import moment from 'moment-timezone';
 
 export default function CardInfo({
     props,
     title = 'Generated API',
     description = 'This is the API you generated. You can download the API archieve and use it in your project.',
 }) {
-    const isExpired = props.expiredAt > new Date().toLocaleString();
+    const dateNew = moment.tz(new Date(), 'Asia/Jakarta').format();
+    // console.log('dateNew', dateNew);
+    const isExpired = props.expiredAt < dateNew;
+    // console.log('isExpired', isExpired);
+
     const [linkClicked, setLinkClicked] = useState(false);
     return (
         <div className="overflow-hidden bg-white shadow sm:rounded-lg">

@@ -1,17 +1,20 @@
-const people = [
-    { value: 1, name: 'Wade Cooper' },
-    { value: 2, name: 'Arlene Mccoy' },
-    { value: 3, name: 'Devon Webb' },
-    { value: 4, name: 'Tom Cook' },
-    { value: 5, name: 'Tanya Fox' },
-    { value: 6, name: 'Hellen Schmidt' },
-];
+import { InformationCircleIcon } from '@heroicons/react/20/solid';
+
+// const people = [
+//     { value: 1, name: 'Wade Cooper' },
+//     { value: 2, name: 'Arlene Mccoy' },
+//     { value: 3, name: 'Devon Webb' },
+//     { value: 4, name: 'Tom Cook' },
+//     { value: 5, name: 'Tanya Fox' },
+//     { value: 6, name: 'Hellen Schmidt' },
+// ];
 
 export default function ComboBox({
     label,
     name,
     options,
     required = false,
+    info = false,
     span = 'col-span-full',
 }) {
     return (
@@ -38,6 +41,12 @@ export default function ComboBox({
                         );
                     })}
                 </select>
+                {!info ? null : (
+                    <>
+                        <InformationCircleIcon className="w-4 h-4 inline-block text-gray-500 me-1" />
+                        <small className=" text-gray-500">{info}</small>
+                    </>
+                )}
             </div>
         </div>
     );

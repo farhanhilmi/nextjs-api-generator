@@ -8,23 +8,24 @@ import { useRouter } from 'next/router';
 import LoadingOverlay from '../loading';
 export default function Form({ state, setState, setNext, routes, setRoutes }) {
     const [routesCount, setRoutesCount] = useState(1);
-    console.log('API', config.NEXT_PUBLIC_API_URL);
-    const [isPending, setIsPending] = useState(false);
+
+    const [isPending, setIsPending] = useState(true);
     const router = useRouter();
 
     // check if api server is running
     const checkServer = async () => {
         try {
+            console.log('API', config.NEXT_PUBLIC_API_URL);
             const response = await fetch(`${config.NEXT_PUBLIC_API_URL}/check`);
-            setIsPending(true);
             // check if response is not ok
             if (!response.ok) {
                 throw new Error('Something went wrong');
             }
         } catch (error) {
-            setIsPending(true);
-            console.log('error', error);
+            console.log('error', error.message);
             router.push('/maintenance');
+        } finally {
+            setIsPending(false);
         }
     };
 
@@ -32,7 +33,7 @@ export default function Form({ state, setState, setNext, routes, setRoutes }) {
         (async () => {
             checkServer();
         })();
-    }, []);
+    }, [isPending]);
 
     const submitHandler = async (e) => {
         e.preventDefault();
@@ -125,9 +126,12 @@ export default function Form({ state, setState, setNext, routes, setRoutes }) {
                                     name={'database'}
                                     // onchange={handlerChange}
                                     options={[
-                                        { value: 'mysql', label: 'MySQL' },
+                                        // { value: 'mysql', label: 'MySQL' },
                                         { value: 'mongodb', label: 'MongoDB' },
                                     ]}
+                                    info={
+                                        'Currently only MongoDB is supported. More database types will be added soon. Stay tuned!'
+                                    }
                                 />
 
                                 <div className="col-span-full">

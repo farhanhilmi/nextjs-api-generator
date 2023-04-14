@@ -1,12 +1,14 @@
 import { PaperClipIcon } from '@heroicons/react/20/solid';
+import DialogModal from './dialogModal';
+import { useState } from 'react';
 
 export default function CardInfo({
     props,
-    handleLinkClick,
     title = 'Generated API',
     description = 'This is the API you generated. You can download the API archieve and use it in your project.',
 }) {
     const isExpired = props.expiredAt > new Date().toLocaleString();
+    const [linkClicked, setLinkClicked] = useState(false);
     return (
         <div className="overflow-hidden bg-white shadow sm:rounded-lg">
             <div className="px-4 py-5 sm:px-6">
@@ -121,14 +123,10 @@ export default function CardInfo({
                                         </div>
                                         <div className="ml-4 flex-shrink-0">
                                             <a
-                                                href="#"
-                                                onClick={(e) =>
-                                                    handleLinkClick(
-                                                        e,
-                                                        props.archieve.file,
-                                                    )
+                                                href={props.archieve.file}
+                                                onClick={() =>
+                                                    setLinkClicked(true)
                                                 }
-                                                download
                                                 className="font-medium text-indigo-600 hover:text-indigo-500"
                                             >
                                                 Download
@@ -141,6 +139,10 @@ export default function CardInfo({
                     </div>
                 </dl>
             </div>
+            <DialogModal
+                linkClicked={linkClicked}
+                setLinkClicked={setLinkClicked}
+            />
         </div>
     );
 }

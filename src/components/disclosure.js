@@ -3,32 +3,35 @@ import { ChevronUpIcon } from '@heroicons/react/20/solid';
 import CardInfo from './cardInfo';
 import { useEffect, useState } from 'react';
 import moment from 'moment/moment';
-import DialogModal from './dialogModal';
-import { useRouter } from 'next/router';
-import config from '@/config';
 
 export default function DisclosureView() {
-    const [linkClicked, setLinkClicked] = useState(false);
-    const router = useRouter();
+    // const [linkClicked, setLinkClicked] = useState(false);
 
-    const props = {
-        id: 'test',
-        serviceName: 'test',
-        description: 'test',
-        databaseType: 'test',
-        properties: {},
-        expiredAt: 'test',
-        archieve: {
-            name: 'test',
-            file: 'test',
-        },
-    };
+    // const props = {
+    //     id: 'test',
+    //     serviceName: 'test',
+    //     description: 'test',
+    //     databaseType: 'test',
+    //     properties: {},
+    //     expiredAt: 'test',
+    //     archieve: {
+    //         name: 'test',
+    //         file: 'test',
+    //     },
+    // };
     const [state, setState] = useState(false);
     // get data from local storage and set it to state
     useEffect(() => {
         (async () => {
             if (JSON.parse(localStorage.getItem('api_archieve'))) {
                 const archieve = await getData();
+                archieve.sort((a, b) =>
+                    a.createdAt > b.createdAt
+                        ? -1
+                        : b.createdAt > a.createdAt
+                        ? 1
+                        : 0,
+                );
                 setState(archieve);
             }
         })();
@@ -39,11 +42,11 @@ export default function DisclosureView() {
         return await JSON.parse(localStorage.getItem('api_archieve'));
     };
 
-    const handleLinkClick = (e, url) => {
-        e.preventDefault();
-        router.push(`${config.NEXT_PUBLIC_API_URL}${url}`);
-        setLinkClicked(true);
-    };
+    // const handleLinkClick = (e) => {
+    //     e.preventDefault();
+    //     // router.push(url);
+    //     setLinkClicked(true);
+    // };
 
     return (
         <div className="w-full px-4 pt-16">
@@ -58,6 +61,7 @@ export default function DisclosureView() {
                         <h2 className="py-2 pb-8 text-center font-bold text-gray-600">
                             History of your generated APIs
                         </h2>
+
                         {state.map((item) => (
                             <Disclosure key={item.id} as="div" className="mb-2">
                                 {({ open }) => (
@@ -86,13 +90,9 @@ export default function DisclosureView() {
                                                 props={item}
                                                 title={item.serviceName}
                                                 description={item.description}
-                                                handleLinkClick={
-                                                    handleLinkClick
-                                                }
-                                            />
-                                            <DialogModal
-                                                linkClicked={linkClicked}
-                                                setLinkClicked={setLinkClicked}
+                                                // handleLinkClick={
+                                                //     handleLinkClick
+                                                // }
                                             />
                                         </Disclosure.Panel>
                                     </>

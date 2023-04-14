@@ -11,7 +11,6 @@ export default function Properties({ state, setState, setNext, routes }) {
 
     // assign the state properties to a variable
     const data = { ...state.properties };
-
     const SubmitHandler = async (e) => {
         e.preventDefault();
 

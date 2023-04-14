@@ -1,5 +1,5 @@
 import { Disclosure } from '@headlessui/react';
-import { ChevronUpIcon } from '@heroicons/react/20/solid';
+import { ChevronUpIcon, TrashIcon } from '@heroicons/react/20/solid';
 import CardInfo from './cardInfo';
 import { useEffect, useState } from 'react';
 import moment from 'moment/moment';
@@ -42,6 +42,13 @@ export default function DisclosureView() {
         return await JSON.parse(localStorage.getItem('api_archieve'));
     };
 
+    const clearHandler = async () => {
+        if (JSON.parse(localStorage.getItem('api_archieve'))) {
+            localStorage.removeItem('api_archieve');
+            setState(false);
+        }
+    };
+
     // const handleLinkClick = (e) => {
     //     e.preventDefault();
     //     // router.push(url);
@@ -58,10 +65,22 @@ export default function DisclosureView() {
                     </p>
                 ) : (
                     <div>
-                        <h2 className="py-2 pb-8 text-center font-bold text-gray-600">
-                            History of your generated APIs
-                        </h2>
-
+                        <div className="py-2 pb-4">
+                            <h2 className="text-center font-bold text-gray-600">
+                                History of your generated APIs
+                            </h2>
+                            <div className="text-white flex justify-end">
+                                <button
+                                    onClick={clearHandler}
+                                    className="flex items-center justify-center rounded-lg bg-red-100 px-2 py-1 text-center text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring focus-visible:ring-red-500 focus-visible:ring-opacity-75"
+                                >
+                                    <TrashIcon className="h-3 w-3 inline-block me-1" />
+                                    <p className="text-sm font-semibold me-2">
+                                        Clear history
+                                    </p>
+                                </button>
+                            </div>
+                        </div>
                         {state.map((item) => (
                             <Disclosure key={item.id} as="div" className="mb-2">
                                 {({ open }) => (

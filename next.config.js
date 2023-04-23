@@ -2,8 +2,7 @@
 const nextConfig = {
     reactStrictMode: true,
     env: {
-        NEXT_PUBLIC_API_URL:
-            'https://backend-api-generator.as.r.appspot.com/api',
+        NEXT_PUBLIC_API_URL: 'https://nextjs-api-generator.vercel.app/api',
     },
 };
 
